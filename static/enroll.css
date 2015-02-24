@@ -30,7 +30,19 @@ body {
 	margin-bottom: 20px;
 	background: url("/static/logo_400.png");
 }
-	
+
+.flag {
+	padding: 20px 10px;
+}
+
+.flag img {
+	float: right;
+	height: 20px;
+	width: 25px;
+}
+
+
+
 input[type=text], input[type=password], input, select {
 	padding: 5px;
 	width: 40%;

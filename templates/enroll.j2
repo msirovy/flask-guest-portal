@@ -1,4 +1,12 @@
 {% extends "layout.j2" %}
+{% block flag %}
+
+{% if lang == 'en' %}
+	<a href="/cz"><img src="/static/cz-flag.gif" alt="prepnout do cestiny">
+{% else %}
+	<a href="/en"><img src="/static/uk-flag.gif" alt="switch to english">
+{% endif %}
+{% endblock %}
 
 {% block container %}
 {% from "formhelper.j2" import render_field %}
