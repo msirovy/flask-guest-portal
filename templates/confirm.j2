@@ -1,0 +1,34 @@
+{% extends "layout.j2" %}
+
+{% block container %}
+
+
+
+<p>Níže uvedený uživatel, zažádal o přístup do sítě <strong>FZU-GUEST</strong> na <strong>{{ data.days }} dní</strong> a Vás uvedl jako člověka zodpovědného za jeho konání v této síti. Pokud níže uvedeného žadatele znáte, prosím vyplňte níže Vaše emailové heslo.</p>
+
+<p>User bellow, has asked for access to <strong>FZU-GUEST</strong> wireless network for <strong>{{ data.days }} days</strong>. You have been identified as responsible contact for his actions in FZU-GUEST network. So if you know user bellow please input your fzu email password to input box bellow.</p>
+
+
+{% from "formhelper.j2" import render_field %}
+<form action="/confirm/{{ data.code_registration }}" method=POST enctype="multipart/form-data">
+<dl>
+	<dt> Name/Jméno </dt>
+		<dd> {{ data.first_name }} {{ data.last_name }} </dd>
+	<dt> Phone/Telefón </dt>
+		<dd> {{ data.phone }} </dd>
+	<dt> E-mail </dt>
+		<dd> {{ data.mail }} </dd>
+	<dt> Your email login/</dt>
+		<dd> <input type="text" name="username" value="{{ data.garant_mail|replace("@fzu.cz","") }}" READONLY></dd>
+		
+	{{ render_field(form.password) }}
+</dl>	
+
+<button action="confirm" type="submit" name="confirm"> Realy confirm </button>
+</form>
+
+
+
+{% endblock %}
+
+

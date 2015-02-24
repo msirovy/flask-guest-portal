@@ -1,0 +1,17 @@
+{% extends "layout.j2" %}
+
+{% block container %}
+{% from "formhelper.j2" import render_field %}
+	<form method="POST" action="/{{ lang }}" enctype="multipart/form-data">
+	<dl>
+		{{ render_field(form.language, onChange="document.location.href=\'/\' + this.value") }}
+		{{ render_field(form.first_name, label="Jmeno") }}
+		{{ render_field(form.last_name) }}
+		{{ render_field(form.phone, type="tel") }}
+		{{ render_field(form.mail, type="email") }}
+		{{ render_field(form.days) }}
+		{{ render_field(form.garant_mail, type="email") }}
+	</dl>
+	<p><button name="action" type="submit" value="Send"> Send </button>
+	</form>
+{% endblock %}

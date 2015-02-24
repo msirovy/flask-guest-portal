@@ -1,0 +1,15 @@
+# ignore python
+__pycache__/
+*.py[cod]
+settings.yml
+etc/
+.crt
+.key
+.pem
+
+# ignore OSXisms
+.DS_Store
+
+
+
+*.komodoproject
