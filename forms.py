@@ -6,7 +6,7 @@ from wtforms import Form, validators, TextField, SelectField, HiddenField , Pass
 
 class Enroll(Form):	
 	language = SelectField('Language',
-			choices = [("cz", "CZ Česky"), ("en", "EN English")], default="en")
+			choices = [("cs", "CZ Česky"), ("en", "EN English")], default="en")
 	first_name = TextField('First name', [
 		validators.Required( 
 		message = "First name is required.")
@@ -21,18 +21,18 @@ class Enroll(Form):
 	])
 	mail = TextField('E-mail', [
 		validators.Regexp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$', 
-		message = "Right e-mail format is for example john@yahoo.com")
+		message = "Correct e-mail adress is for example john@yahoo.com")
 	])
 	days = SelectField('Interval of validity',
-			choices = [("7", "one week"), ("30", "one month"), ("90", "three months")])
-	garant_mail = TextField("Your garant's e-mail", [
+			choices = [("30", "1 month"), ("90", "3 months"), ("362", "1 year")])
+	garant_mail = TextField("Guarantee's e-mail", [
 		validators.Regexp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$', 
-		message = "Garant's e-mail must be in domain FZU.CZ.")
+		message = "Guarantee's e-mail must be in domain FZU.CZ.")
 	])
 
 class Enroll_cz(Form):	
 	language = SelectField('Jazyk',
-			choices = [("cz", "CZ Česky"), ("en", "EN English")], default="cz")
+			choices = [("cs", "CZ Česky"), ("en", "EN English")], default="cz")
 	first_name = TextField('Jméno', [
 		validators.Required( 
 		message = u"Jméno musí být vyplněno.")
@@ -50,8 +50,8 @@ class Enroll_cz(Form):
 		message = u"Správný formát e-mailu je například karel@fzu.cz")
 	])
 	days = SelectField('Doba platnosti',
-			choices = [("7", "týden"), ("30", "měsíc"), ("90", "tři měsíce")])
-	garant_mail = TextField("E-mail na ručitele", [
+			choices = [("30", "1 měsíc"), ("90", "3 měsíce"), ("362", "1 rok")])
+	garant_mail = TextField("E-mail ručitele", [
 		validators.Regexp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$', 
 		message = u"Ručitelův e-mail musí být v doméně fzu.cz.")
 	])

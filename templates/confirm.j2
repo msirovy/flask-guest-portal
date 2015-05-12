@@ -11,20 +11,19 @@
 
 {% from "formhelper.j2" import render_field %}
 <form action="/confirm/{{ data.code_registration }}" method=POST enctype="multipart/form-data">
-<dl>
-	<dt> Name/Jméno </dt>
-		<dd> {{ data.first_name }} {{ data.last_name }} </dd>
-	<dt> Phone/Telefón </dt>
-		<dd> {{ data.phone }} </dd>
-	<dt> E-mail </dt>
-		<dd> {{ data.mail }} </dd>
-	<dt> Your email login/</dt>
-		<dd> <input type="text" name="username" value="{{ data.garant_mail|replace("@fzu.cz","") }}" READONLY></dd>
-		
-	{{ render_field(form.password) }}
-</dl>	
+<dl width="360px">
+	<dt >Name/Jméno:</dt>
+		<dd > {{ data.first_name }} {{ data.last_name }} </dd></br>
+	<dt >Phone/Telefon:</dt>
+		<dd > {{ data.phone }} </dd></br>
+	<dt><label for="email">E-mail:</label></dt>
+		<dd> {{ data.mail }} </dd><br>
+	<dt><label for="username">Login:</label></dt>
+		<dd> <input type="text" name="username" value="{{ data.garant_mail|replace("@fzu.cz","") }}" READONLY></dd><br>
+	{{ render_field(form.password) }}<br>
+</dl>
 
-<button action="confirm" type="submit" name="confirm"> Realy confirm </button>
+<button action="confirm" type="submit" name="confirm"> Potvrdit/Confirm </button>
 </form>
 
 

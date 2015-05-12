@@ -1,15 +1,23 @@
 {% extends "layout.j2" %}
 {% block flag %}
 
-{% if lang == 'en' %}
-	<a href="/cz"><img src="/static/cz-flag.gif" alt="prepnout do cestiny"></a>
-{% else %}
-	<a href="/en"><img src="/static/uk-flag.gif" alt="switch to english"></a>
-{% endif %}
+{% if lang == 'cs' -%}
+	<span class="active"><img src="/static/cs.png" title="čeština" alt="čeština"></span>
+	<a href="/en"><img src="/static/en.png" title="switch to english" alt="switch to english"></a> 
+{% else -%}
+	<a href="/cs"><img src="/static/cs.png" title="prepnout do češtiny" alt="prepnout do češtiny"></a> 
+	<span class="active"><img src="/static/en.png" title="english" alt="english"></span>
+{% endif -%}
 {% endblock %}
 
 {% block container %}
-{% from "formhelper.j2" import render_field %}
+{% if lang == 'cs' -%}
+<p>Vstupujete jako host do Wi-Fi sítě Fyzikálního ústavu. Vstup vám musí povolit některý ze zaměstnanců FZU (ručitel), který se za vás zaručí.</p>
+{% else -%}
+<p>You are about to access the Institute of Physics ASCR, v. v. i. (FZU) computer network as a guest user. It is required that any of our employees quarantee your identity and authorize your access.</p>
+{% endif -%}
+
+{% from "formhelper.j2" import render_field -%}
 	<form method="POST" action="/{{ lang }}" enctype="multipart/form-data">
 	<dl>
 		{{ render_field(form.language, onChange="document.location.href=\'/\' + this.value") }}
@@ -20,6 +28,6 @@
 		{{ render_field(form.days) }}
 		{{ render_field(form.garant_mail, type="email") }}
 	</dl>
-	<p><button name="action" type="submit" value="Send"> Send </button>
+	<p><button name="action" type="submit" value="Send"> {% if lang == "en" %}Send{% else %}Odešli{% endif %} </button>
 	</form>
 {% endblock %}

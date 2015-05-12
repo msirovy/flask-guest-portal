@@ -1,24 +1,22 @@
-<HTML lang="en">
-<HEAD>
-	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
-	<meta name=viewport content="width=device-width,
-		initial-scale=0.8, minimum-scale=0.8 maximum-scale=1.0" user-scalable="no">
+<html>
+<head>
+	<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+	<!--<meta name=viewport content="width=device-width,
+		initial-scale=0.8, minimum-scale=0.8 maximum-scale=1.0" user-scalable="no"> -->
+	<meta name="viewport" content="width=400">
 	<link rel="Stylesheet" href="/static/enroll.css" type="text/css">
-	<TITLE>WiFi FZU - Enroll</TITLE>
-</HEAD>
-<BODY>
+	<title>WiFi FZU - Enroll</title>
+</head>
+<body>
 
 <div class="header">
 	<div class="flag">  {% block flag %}{% endblock %}  </div>
 	<div class="logo"></div>
 </div>
 <div class="container">
-
 {% block container %}
 <center>{{ message|default("OK") }}</center>
 {% endblock %}
-
 </div>
-
-</TABLE>
-</FORM>
+</body>
+</html>

@@ -23,12 +23,12 @@ smtp = CONF['smtp']
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/<lang>", methods=['GET', 'POST'])
-def register(lang="cz"):
+def register(lang="cs"):
 	message = []
 
-	if lang == 'cz':
+	if lang == 'cs':
 		_form = Enroll_cz(request.form)
-		msg_mail = "Zpráva byla odeslána vašemu ručiteli, jakmile potvrdí email, který mu přijde, budete moci využívat síť <strong>FZU-GUEST</strong>."
+		msg_mail = "Zpráva byla odeslána vašemu ručiteli. Jakmile potvrdí vámi zaslaný email, budete moci využívat síť <strong>FZU-GUEST</strong>."
 		
 	else:
 		_form = Enroll(request.form)
@@ -48,13 +48,19 @@ def register(lang="cz"):
 			
 			_data['code_reg'] = md5.hexdigest()
 			_data['mac_addr'] = get_mac(request.remote_addr)
+			#pprint(_data) # problem s tiskem UTF-8 ceskych zanku
 			
 			sql = "INSERT INTO {table_name} (code_registration, first_name, last_name, phone, mail, days, garant_mail, mac_addr) VALUES ('{code_reg}', '{first_name}', '{last_name}', '{phone}', '{mail}', '{days}', '{garant_mail}', '{mac_addr}');".format_map(_data)
-			db_exec(db, sql, debug=True)
+		
 			
+			"""
+			odeslu email ruciteli, pridam zaznam do databaze a zobrazim potvrzujici stranku
+			"""
 			if send_mail(smtp=smtp, template=CONF['confirm_mail'], data=_data):
+				db_exec(db, sql, debug=True)
 				return render_template('layout.j2',
 								   message = msg_mail)
+
 		else:
 			return render_template('enroll.j2',
 							form = _form,
@@ -71,12 +77,12 @@ def confirm(code_registration=None):
 	form = Login(request.form)
 	_data = db_exec(db, "select * from enroll where code_registration = '%s'" % code_registration,debug=True)[0]
 	date_now = time.strftime("%Y-%m-%d")
-	msg = "Uživatel je povolen, během 10ti minut mu zřídíme přístup do sítě FZU-GUEST. \
-		User has approved, access to FZU-GUEST will be set during 10 minutes"
+	msg = "<p>Uživatel je povolen, během 10ti minut mu zřídíme přístup do sítě FZU-GUEST.</p> \
+		<p>User has approved, access to FZU-GUEST will be set during 10 minutes.</p>"
 	
 	if request.method == 'POST' and form.validate():
-		valid_grant(smtp, form.username.data, form.password.data)
-		db_exec(db, "update enroll SET date_confirm = '{date_now}' where code_registration = '{code_registration}'".format_map(vars()))
+		if valid_grant(smtp, form.username.data, form.password.data):
+			db_exec(db, "update enroll SET date_confirm = '{date_now}' where code_registration = '{code_registration}'".format_map(vars()))
 		return render_template('layout.j2',
 							   message = msg,
 							   )
@@ -87,6 +93,10 @@ def confirm(code_registration=None):
 							form = Login(request.form),
 						)
 	
+@app.errorhandler(404)
+def error(error):
+	return redirect('/')
+
 
 @app.route("/get")
 def get(locality=None):
@@ -95,7 +105,7 @@ def get(locality=None):
 	sql = "select mac_addr from enroll where DATE_ADD(date_confirm, INTERVAL days DAY) > '%s';" % time.strftime("%Y-%m-%d")
 	_ret = ""
 	for line in db_exec(db, sql, debug=True):
-		_ret += line['mac_addr'] + "\n"
+		_ret += str2mac(line['mac_addr']) + "\n"
 	return _ret
 
 
