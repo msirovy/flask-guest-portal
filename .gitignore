@@ -9,7 +9,3 @@ etc/
 
 # ignore OSXisms
 .DS_Store
-
-
-
-*.komodoproject
